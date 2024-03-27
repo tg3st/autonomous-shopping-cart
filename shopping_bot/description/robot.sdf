@@ -14,6 +14,11 @@
       name="gz::sim::systems::Physics">
     </plugin>
     <plugin
+      filename="ignition-gazebo-sensors-system"
+      name="gz::sim::systems::Sensors">
+      <render_engine>ogre2</render_engine>
+    </plugin>
+    <plugin
       filename="ignition-gazebo-scene-broadcaster-system"
       name="gz::sim::systems::SceneBroadcaster">
     </plugin>
@@ -164,6 +169,33 @@
             </box>
           </geometry>
         </visual>
+        <sensor name='gpu_lidar' type='gpu_lidar'>
+	  <topic>lidar</topic>
+	  <update_rate>10</update_rate>
+	  <lidar>
+	    <scan>
+	      <horizontal>
+	        <samples>640</samples>
+	        <resolution>1</resolution>
+	        <min_angle>-3.14</min_angle>
+	        <max_angle>3.14</max_angle>
+	      </horizontal>
+	      <vertical>
+	        <samples>16</samples>
+	        <resolution>1</resolution>
+	        <min_angle>-0.261799</min_angle>
+	        <max_angle>0.261799</max_angle>
+	      </vertical>
+	    </scan>
+	    <range>
+	      <min>0.08</min>
+	      <max>10.0</max>
+	      <resolution>0.01</resolution>
+	    </range>
+	  </lidar>
+	  <alwaysOn>1</alwaysOn>
+	  <visualize>true</visualize>
+	</sensor>
       </link>
 
       <link name='left_wheel'>

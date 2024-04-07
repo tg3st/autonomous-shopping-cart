@@ -39,8 +39,29 @@ def generate_launch_description():
         }.items(),
     )
 
+    # RViz
+    rviz = Node(
+       package='rviz2',
+       executable='rviz2',
+       arguments=['-d', os.path.join(package_directory, 'rviz', 'gpu_lidar_bridge.rviz')],
+       condition=IfCondition(LaunchConfiguration('rviz'))
+    )
+
+    # Bridge
+    bridge = Node(
+        package='ros_gz_bridge',
+        executable='parameter_bridge',
+        arguments=['lidar@sensor_msgs/msg/LaserScan@gz.msgs.LaserScan',
+                   '/lidar/points@sensor_msgs/msg/PointCloud2@gz.msgs.PointCloudPacked',
+                   '/model/shopping_bot/odometry@nav_msgs/msg/Odometry[gz.msgs.Odometry'
+                   ],
+        output='screen'
+    )
+
     return LaunchDescription([
         gz_sim,
         DeclareLaunchArgument('rviz', default_value='true',
                               description='Open RViz.'),
+        bridge,
+        rviz,
     ])
